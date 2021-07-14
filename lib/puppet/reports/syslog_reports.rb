@@ -1,5 +1,5 @@
 require 'puppet'
-require 'fileutils'
+require 'yaml'
 require 'syslog/logger'
 
 Puppet::Reports.register_report(:syslog_reports) do
@@ -16,7 +16,7 @@ Puppet::Reports.register_report(:syslog_reports) do
   end
 
   def process
-    debug(self)
+    debug(self.to_yaml)
   end
   
 end
