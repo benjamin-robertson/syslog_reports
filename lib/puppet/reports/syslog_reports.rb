@@ -8,7 +8,7 @@ Puppet::Reports.register_report(:syslog_reports) do
   # logdest = Syslog::Logger.new 'PuppetReports'
 
   def process
-    Syslog.log(Syslog::Log_puppet, self)
+    Syslog.log(Syslog::LOG_INFO, self)
     # logdest.info(self)
   end
 end
