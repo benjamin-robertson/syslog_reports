@@ -1,4 +1,5 @@
 require 'puppet'
+require 'fileutils'
 require 'syslog/logger'
 
 Puppet::Reports.register_report(:syslog_reports) do
