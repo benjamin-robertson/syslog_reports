@@ -7,10 +7,10 @@ Puppet::Reports.register_report(:syslog_reports) do
 
   desc 'Setup logger'
   # logdest = Syslog::Logger.new 'PuppetReports'
-  File.open("log.txt", "w") { |f| f.write "#{Time.now} - User logged in\n" }
+  File.open("/tmp/log.txt", "w") { |f| f.write "outside process\n" }
 
   def process
-
+    File.open("/tmp/log2.txt", "w") { |f| f.write "inside process\n" }
   end
   
 end
