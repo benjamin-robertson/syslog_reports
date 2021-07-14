@@ -7,10 +7,16 @@ Puppet::Reports.register_report(:syslog_reports) do
 
   desc 'Setup logger'
   # logdest = Syslog::Logger.new 'PuppetReports'
-  File.open("/tmp/log.txt", "w") { |f| f.write "outside process\n" }
+
+  def debug(msg)
+    timestamp = Time.now.utc.iso8601
+    f = File.open('/var/log/puppetlabs/puppetserver/reporting_servicenow.log', 'a')
+    f.write("[#{timestamp}]: DEBUG: #{msg}\n") if DEBUG
+    f.close
+  end
 
   def process
-    File.open("/tmp/log2.txt", "w") { |f| f.write "inside process\n" }
+    debug("Begin reports:")
   end
   
 end
