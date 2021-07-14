@@ -9,7 +9,9 @@ Puppet::Reports.register_report(:syslog_reports) do
   # logdest = Syslog::Logger.new 'PuppetReports'
 
   def process
-    File.open("/tmp/log.txt", "w") { |f| f.write "#{Time.now} - User logged in\n" }
+    f = File.open("/tmp/log.txt", "w") 
+    f.write('testing puppet reports')
+    f.close
     #file = File.opne('/tmp/report.txt', 'w')
 
     #if status == 'corrective'
