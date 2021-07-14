@@ -10,7 +10,7 @@ Puppet::Reports.register_report(:syslog_reports) do
   f = File.open('/tmp/log.txt', 'a')
   
   def process
-    f.write('testing puppet reports')
+    f.write('testing puppet reports??')
     f.write('ohhhh yeah second line')
     f.write(self)
     #file = File.opne('/tmp/report.txt', 'w')
