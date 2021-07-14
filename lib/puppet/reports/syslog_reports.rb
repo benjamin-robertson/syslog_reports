@@ -8,7 +8,9 @@ Puppet::Reports.register_report(:syslog_reports) do
   # logdest = Syslog::Logger.new 'PuppetReports'
 
   def process
-    Syslog.log(Syslog::LOG_INFO, self)
+    if status == 'corrective'
+      Syslog.log(Syslog::LOG_INFO, self)
+    end
     # logdest.info(self)
   end
 end
