@@ -10,9 +10,10 @@ Puppet::Reports.register_report(:syslog_reports) do
   f = File.open('/tmp/log.txt', 'a')
   f.write('testing puppet reports??')
   f.write('ohhhh yeah second line')
+  f.close
   
   def process
 
   end
-  f.close
+  
 end
