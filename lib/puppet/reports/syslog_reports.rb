@@ -7,11 +7,11 @@ Puppet::Reports.register_report(:syslog_reports) do
 
   desc 'Setup logger'
   # logdest = Syslog::Logger.new 'PuppetReports'
-
+  f = File.open('/tmp/log.txt', 'a')
+  
   def process
-    f = File.open("/tmp/log.txt", "w") 
     f.write('testing puppet reports')
-    f.close
+    f.write(self)
     #file = File.opne('/tmp/report.txt', 'w')
 
     #if status == 'corrective'
@@ -19,4 +19,5 @@ Puppet::Reports.register_report(:syslog_reports) do
     #end
     # logdest.info(self)
   end
+  f.close
 end
