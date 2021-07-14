@@ -16,7 +16,7 @@ Puppet::Reports.register_report(:syslog_reports) do
   end
 
   def process
-    debug("Begin reports:")
+    debug(self)
   end
   
 end
