@@ -11,6 +11,7 @@ Puppet::Reports.register_report(:syslog_reports) do
   
   def process
     f.write('testing puppet reports')
+    f.write('ohhhh yeah second line')
     f.write(self)
     #file = File.opne('/tmp/report.txt', 'w')
 
