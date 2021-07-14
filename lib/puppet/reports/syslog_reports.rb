@@ -15,8 +15,19 @@ Puppet::Reports.register_report(:syslog_reports) do
     f.close
   end
 
-  def process
-    debug(self.to_yaml)
-  end
   
+
+  def process
+    if self.status != nil then
+      status = self.status
+    else
+      status = 'undefined'
+    end
+
+    # Next, let's do something if the status equals 'failed'.
+    if status == 'corrective' then
+      # Finally, dump the report object to YAML and post it using the API object:
+      debug(self.to_yaml)
+    end
+  end
 end
