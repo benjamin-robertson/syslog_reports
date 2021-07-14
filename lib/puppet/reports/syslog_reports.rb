@@ -13,7 +13,6 @@ Puppet::Reports.register_report(:syslog_reports) do
   
   def process
 
-    f.write(self)
   end
   f.close
 end
