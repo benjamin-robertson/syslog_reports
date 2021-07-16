@@ -25,9 +25,7 @@ Puppet::Reports.register_report(:syslog_reports) do
     end
 
     # Next, let's do something if the status equals 'failed'.
-    if status == 'corrective' then
-      # Finally, dump the report object to YAML and post it using the API object:
-      debug(self.to_yaml)
-    end
+    # Finally, dump the report object to YAML and post it using the API object:
+    debug(self.to_yaml)
   end
 end
