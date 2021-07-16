@@ -26,6 +26,8 @@ Puppet::Reports.register_report(:syslog_reports) do
 
     # Next, let's do something if the status equals 'failed'.
     # Finally, dump the report object to YAML and post it using the API object:
-    debug(self.to_yaml)
+    if self.status = 'changed'
+      debug(self.to_yaml)
+    end
   end
 end
