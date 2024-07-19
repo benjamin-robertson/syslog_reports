@@ -11,7 +11,7 @@ Puppet::Reports.register_report(:syslog_reports) do
   def debug(msg, host)
     timestamp = Time.now.utc.iso8601
     f = File.open('/var/log/puppetlabs/puppetserver/reporting_servicenow.log', 'a')
-    f.write("[#{timestamp}]: [#{host}]: #{msg}\n")
+    f.write("[#{timestamp}]: #{host}: #{msg}\n")
     f.close
   end
 
