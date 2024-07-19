@@ -8,10 +8,10 @@ Puppet::Reports.register_report(:syslog_reports) do
   desc 'Setup logger'
   # logdest = Syslog::Logger.new 'PuppetReports'
 
-  def debug(msg)
+  def debug(msg, host)
     timestamp = Time.now.utc.iso8601
     f = File.open('/var/log/puppetlabs/puppetserver/reporting_servicenow.log', 'a')
-    f.write("[#{timestamp}]: DEBUG: #{msg}\n")
+    f.write("[#{timestamp}]: [#{host}]: #{msg}\n")
     f.close
   end
 
@@ -24,11 +24,10 @@ Puppet::Reports.register_report(:syslog_reports) do
       status = 'undefined'
     end
 
-    # Next, let's do something if the status equals 'failed'.
-    # Finally, dump the report object to YAML and post it using the API object:
+    # Log the report if there are changes.
     if self.status == 'changed'
-      logs.each do | log|
-        debug(log)
+      logs.each do | log |
+        debug(log, host)
       end
     end
   end
