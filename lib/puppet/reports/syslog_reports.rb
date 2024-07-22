@@ -29,9 +29,16 @@ Puppet::Reports.register_report(:syslog_reports) do
       syslog_config = YAML.load_file(syslog_config_file)
     rescue
       Puppet.warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+      warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+      warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
       debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.', 'poodle')
       exit
     end
+
+    Puppet.warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+    warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+    warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+    debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.', 'poodle')
 
     # Set report_status
     report_status = case syslog_config['report_status']
