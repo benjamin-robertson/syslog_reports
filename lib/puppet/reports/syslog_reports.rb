@@ -24,40 +24,40 @@ Puppet::Reports.register_report(:syslog_reports) do
   end
 
   def process
-    # begin
-    #   syslog_config_file = Puppet[:confdir] + '/syslog_reports.yaml'
-    #   syslog_config = YAML.load_file(syslog_config_file)
-    # rescue
-    #   Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    #   # warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    #   # warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    #   debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.', 'poodle')
-    #   exit
-    # end
+    begin
+      syslog_config_file = Puppet[:confdir] + '/syslog_reports.yaml'
+      syslog_config = YAML.load_file(syslog_config_file)
+    rescue
+      Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML. JSON')
+      # warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+      # warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+      debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML. JSON', 'poodle')
+      exit
+    end
 
-    Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
+    # Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
     # warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
     # warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.', 'poodle')
+    # debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.', 'poodle')
 
     # Set report_status
-    # report_status = case syslog_config['report_status']
-    #                 when 'failed'
-    #                   ['failed']
-    #                 when 'changed'
-    #                   ['failed', 'changed']
-    #                 when 'unchanged'
-    #                   ['failed', 'changed', 'unchanged']
-    #                 else
-    #                   ['failed', 'changed']
-    #                 end
+    report_status = case syslog_config['report_status']
+                    when 'failed'
+                      ['failed']
+                    when 'changed'
+                      ['failed', 'changed']
+                    when 'unchanged'
+                      ['failed', 'changed', 'unchanged']
+                    else
+                      ['failed', 'changed']
+                    end
 
-    report_status = ['failed', 'changed', 'unchanged']
+    # report_status = ['failed', 'changed', 'unchanged']
 
     # # Quit if we are not enabled
-    # unless syslog_config['enabled']
-    #   return '' # need to establish how to quit and not report.
-    # end
+    unless syslog_config['enabled']
+      return '' # need to establish how to quit and not report.
+    end
 
     if !self.status.nil?
       status = self.status
