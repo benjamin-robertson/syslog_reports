@@ -35,13 +35,13 @@ Puppet::Reports.register_report(:syslog_reports) do
     # Set report_status
     report_status = case syslog_config['report_status']
                     when 'failed'
-                      ['failed', 'changed', 'unchanged']
+                      ['failed']
                     when 'changed'
-                      ['changed', 'unchanged']
+                      ['failed', 'changed']
                     when 'unchanged'
-                      ['unchanged']
+                      ['failed', 'changed', 'unchanged']
                     else
-                      ['changed', 'unchanged']
+                      ['failed', 'changed']
                     end
 
     # Quit if we are not enabled
