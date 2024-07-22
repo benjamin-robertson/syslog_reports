@@ -2,8 +2,16 @@ require 'puppet'
 require 'yaml'
 require 'syslog/logger'
 
+# config values
+#
+# enabled: boolean
+#   default: false
+# syslog_server: string
+# report_status: Enum['failed','changed','unchanged']
+#
+
 Puppet::Reports.register_report(:syslog_reports) do
-  desc 'Send the corrective changes to syslog'
+  desc 'Sends Puppet reports to syslog or file.'
 
   desc 'Setup logger'
   # logdest = Syslog::Logger.new 'PuppetReports'
@@ -15,18 +23,41 @@ Puppet::Reports.register_report(:syslog_reports) do
     f.close
   end
 
-  
-
   def process
-    if self.status != nil then
+    begin
+      syslog_config_file = Puppet[:confdir] + '/syslog_reports.yaml'
+      syslog_config = YAML.load_file(syslog_config_file)
+    rescue
+      puts 'Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.'
+      return ''
+    end
+
+    # Set report_status
+    report_status = case syslog_config['report_status']
+                    when 'failed'
+                      ['failed', 'changed', 'unchanged']
+                    when 'changed'
+                      ['changed', 'unchanged']
+                    when 'unchanged'
+                      ['unchanged']
+                    else
+                      ['changed', 'unchanged']
+                    end
+
+    # Quit if we are not enabled
+    unless syslog_config['enabled']
+      return '' # need to establish how to quit and not report.
+    end
+
+    if !self.status.nil?
       status = self.status
     else
       status = 'undefined'
     end
 
     # Log the report if there are changes.
-    if self.status == 'changed'
-      logs.each do | log |
+    if report_status.include?(status)
+      logs.each do |log|
         debug(log, host)
       end
     end
