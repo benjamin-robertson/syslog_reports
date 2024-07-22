@@ -32,7 +32,7 @@ Puppet::Reports.register_report(:syslog_reports) do
       # warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
       # warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
       debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML. JSON', 'poodle')
-      exit
+      return
     end
 
     # Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
@@ -56,7 +56,7 @@ Puppet::Reports.register_report(:syslog_reports) do
 
     # # Quit if we are not enabled
     unless syslog_config['enabled']
-      return '' # need to establish how to quit and not report.
+      return # need to establish how to quit and not report.
     end
 
     if !self.status.nil?
