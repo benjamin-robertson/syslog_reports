@@ -70,6 +70,8 @@ Puppet::Reports.register_report(:syslog_reports) do
       return
     end
 
+    Puppet.err("Syslog reports: ERROR: sys_logger is type #{sys_logger.class}")
+
     # Log the report if there are changes.
     if report_status.include?(status)
       logs.each do |log|
