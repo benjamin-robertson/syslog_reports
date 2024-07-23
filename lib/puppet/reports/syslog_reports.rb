@@ -26,8 +26,7 @@ Puppet::Reports.register_report(:syslog_reports) do
 
   def syslog(msg, hostname, sys_logger)
     timestamp = Time.now.utc.iso8601
-    # sys_logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
-    sys_logger.info("[#{timestamp}]: #{hostname}: #{msg}\n")
+    sys_logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
   end
 
   def process
