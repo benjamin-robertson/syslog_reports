@@ -1,6 +1,7 @@
 require 'puppet'
 require 'yaml'
 require 'remote_syslog_logger'
+require 'logger'
 
 # config values
 #
