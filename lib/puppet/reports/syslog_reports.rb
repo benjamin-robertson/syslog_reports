@@ -1,6 +1,6 @@
 require 'puppet'
 require 'yaml'
-require 'syslog/logger'
+require 'remote_syslog_logger'
 
 # config values
 #
@@ -23,22 +23,19 @@ Puppet::Reports.register_report(:syslog_reports) do
     f.close
   end
 
+  def syslog(msg, hostname, logger)
+    timestamp = Time.now.utc.iso8601
+    logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
+  end
+
   def process
     begin
       syslog_config_file = Puppet[:confdir] + '/syslog_reports.yaml'
       syslog_config = YAML.load_file(syslog_config_file)
     rescue
-      Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML. JSON')
-      # warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-      # warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-      debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML. JSON', 'poodle')
+      Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
       return
     end
-
-    # Puppet.err('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    # warn('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    # warning('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.')
-    # debug('Syslog reports: ERROR: failed to load config file. Ensure config file is valid YAML.', 'poodle')
 
     # Set report_status
     report_status = case syslog_config['report_status']
@@ -65,11 +62,21 @@ Puppet::Reports.register_report(:syslog_reports) do
       status = 'undefined'
     end
 
+    # Open syslog connection
+    begin
+      logger = RemoteSyslogLogger.new(syslog_config['syslog_server'], 514)
+    rescue
+      Puppet.err('Syslog reports: ERROR: Cannot resolve hostname for syslog server.')
+      return
+    end
+
     # Log the report if there are changes.
     if report_status.include?(status)
       logs.each do |log|
         debug(log, host)
+        syslog(log, host, logger)
       end
     end
+    logger.close
   end
 end
