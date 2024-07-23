@@ -26,7 +26,8 @@ Puppet::Reports.register_report(:syslog_reports) do
 
   def syslog(msg, hostname, sys_logger)
     timestamp = Time.now.utc.iso8601
-    sys_logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
+    # sys_logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
+    sys_logger.info("[#{timestamp}]: #{hostname}: #{msg}\n")
   end
 
   def process
@@ -50,7 +51,6 @@ Puppet::Reports.register_report(:syslog_reports) do
                       ['failed', 'changed']
                     end
 
-    # report_status = ['failed', 'changed', 'unchanged']
 
     # # Quit if we are not enabled
     unless syslog_config['enabled']
@@ -65,13 +65,12 @@ Puppet::Reports.register_report(:syslog_reports) do
 
     # Open syslog connection
     begin
-      sys_logger = RemoteSyslogLogger::UdpSender.new(syslog_config['syslog_server'], 514)
+      # sys_logger = RemoteSyslogLogger::UdpSender.new(syslog_config['syslog_server'], 514)
+      sys_logger = RemoteSyslogLogger.new(syslog_config['syslog_server'], 514)
     rescue
-      Puppet.err('Syslog reports: ERROR: Cannot resolve hostname for syslog server.')
+      Puppet.err('Syslog reports: ERROR: Cannot resolve hostname for syslog server. ')
       return
     end
-
-    Puppet.err("Syslog reports: ERROR: sys_logger is type #{sys_logger.class}")
 
     # Log the report if there are changes.
     if report_status.include?(status)
