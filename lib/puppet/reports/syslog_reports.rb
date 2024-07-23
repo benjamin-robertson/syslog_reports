@@ -80,6 +80,6 @@ Puppet::Reports.register_report(:syslog_reports) do
         syslog(log, host, sys_logger)
       end
     end
-    logger.close
+    sys_logger.close
   end
 end
