@@ -64,8 +64,7 @@ Puppet::Reports.register_report(:syslog_reports) do
 
     # Open syslog connection
     begin
-      # sys_logger = RemoteSyslogLogger::UdpSender.new(syslog_config['syslog_server'], 514)
-      sys_logger = RemoteSyslogLogger.new(syslog_config['syslog_server'], 514)
+      sys_logger = RemoteSyslogLogger::UdpSender.new(syslog_config['syslog_server'], 514)
     rescue
       Puppet.err('Syslog reports: ERROR: Cannot resolve hostname for syslog server. ')
       return
