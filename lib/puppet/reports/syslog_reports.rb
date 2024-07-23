@@ -23,9 +23,9 @@ Puppet::Reports.register_report(:syslog_reports) do
     f.close
   end
 
-  def syslog(msg, hostname, logger)
+  def syslog(msg, hostname, sys_logger)
     timestamp = Time.now.utc.iso8601
-    logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
+    sys_logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
   end
 
   def process
@@ -64,7 +64,7 @@ Puppet::Reports.register_report(:syslog_reports) do
 
     # Open syslog connection
     begin
-      logger = RemoteSyslogLogger.new(syslog_config['syslog_server'], 514)
+      sys_logger = RemoteSyslogLogger.new(syslog_config['syslog_server'], 514)
     rescue
       Puppet.err('Syslog reports: ERROR: Cannot resolve hostname for syslog server.')
       return
@@ -74,7 +74,7 @@ Puppet::Reports.register_report(:syslog_reports) do
     if report_status.include?(status)
       logs.each do |log|
         debug(log, host)
-        syslog(log, host, logger)
+        syslog(log, host, sys_logger)
       end
     end
     logger.close
