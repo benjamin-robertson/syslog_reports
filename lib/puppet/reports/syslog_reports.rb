@@ -15,19 +15,17 @@ Puppet::Reports.register_report(:syslog_reports) do
   desc 'Sends Puppet reports to syslog or file.'
 
   desc 'Setup logger'
-  # logdest = Syslog::Logger.new 'PuppetReports'
 
-  def debug(msg, host)
-    timestamp = Time.now.utc.iso8601
-    f = File.open('/var/log/puppetlabs/puppetserver/reporting_servicenow.log', 'a')
-    f.write("[#{timestamp}]: #{host}: #{msg}\n")
-    f.close
-  end
+  # def debug(msg, host)
+  #   timestamp = Time.now.utc.iso8601
+  #   f = File.open('/var/log/puppetlabs/puppetserver/reporting_servicenow.log', 'a')
+  #   f.write("[#{timestamp}]: #{host}: #{msg}\n")
+  #   f.close
+  # end
 
   def syslog(msg, hostname, sys_logger)
     timestamp = Time.now.utc.iso8601
     sys_logger.transmit("[#{timestamp}]: #{hostname}: #{msg}\n")
-    # sys_logger.info("[#{timestamp}]: #{hostname}: #{msg}\n")
   end
 
   def process
@@ -66,7 +64,6 @@ Puppet::Reports.register_report(:syslog_reports) do
     # Open syslog connection
     begin
       sys_logger = RemoteSyslogLogger::UdpSender.new(syslog_config['syslog_server'], 514)
-      # sys_logger = RemoteSyslogLogger.new(syslog_config['syslog_server'], 514)
     rescue
       Puppet.err('Syslog reports: ERROR: Cannot resolve hostname for syslog server. ')
       return
@@ -75,7 +72,6 @@ Puppet::Reports.register_report(:syslog_reports) do
     # Log the report if there are changes.
     if report_status.include?(status)
       logs.each do |log|
-        debug(log, host)
         syslog(log, host, sys_logger)
       end
     end

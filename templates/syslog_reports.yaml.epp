@@ -1,0 +1,8 @@
+<%- | Boolean                              $enabled,
+      Stdlib::Host                         $syslog_server,
+      Enum['failed','changed','unchanged'] $report_status,
+| -%>
+---
+enabled: <%= $enabled %>
+report_status: '<%= $report_status %>'
+syslog_server: '<%= $syslog_server %>'
