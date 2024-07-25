@@ -44,6 +44,7 @@ RSpec.configure do |c|
     # by default Puppet runs at warning level
     Puppet.settings[:strict] = :warning
     Puppet.settings[:strict_variables] = true
+    Puppet.settings[:confdir] = '/etc/puppetlabs/puppet'
   end
   c.filter_run_excluding(bolt: true) unless ENV['GEM_BOLT']
   c.after(:suite) do

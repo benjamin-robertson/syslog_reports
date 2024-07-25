@@ -18,6 +18,17 @@ describe 'syslog_reports' do
       end
 
       it { is_expected.to compile }
+
+      contents = <<~TEXT
+        ---
+        enabled: true
+        report_status: 'changed'
+        syslog_server: 'dog.com'
+      TEXT
+
+      it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml') }
+      it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml').with_content(contents) }
+
     end
   end
 end
