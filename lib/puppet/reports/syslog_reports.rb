@@ -49,17 +49,16 @@ Puppet::Reports.register_report(:syslog_reports) do
                       ['failed', 'changed']
                     end
 
-
     # # Quit if we are not enabled
     unless syslog_config['enabled']
       return # need to establish how to quit and not report.
     end
 
-    if !self.status.nil?
-      status = self.status
-    else
-      status = 'undefined'
-    end
+    status = if !self.status.nil?
+               self.status
+             else
+               'undefined'
+             end
 
     # Open syslog connection
     begin

@@ -1,6 +1,9 @@
 # @summary Sets up native syslog report processor for Puppet Master, compilers and replica
 #
-# A description of what this class does
+# @param syslog_server [Stdlib::Host] fqdn or IP address of target syslog server.
+# @param enabled [Boolean] Enable the report processor. Default: false
+# @param manage_remote_syslog_logger_gem [Boolean] Install the remote_syslog_logger gem. Default: true
+# @param report_status [Enum['failed','changed','unchanged']] Level of reports to send to syslog. See readme. Default: changed
 #
 # @example
 #   include syslog_reports
