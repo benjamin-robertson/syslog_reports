@@ -1,6 +1,6 @@
 # syslog_reports
 
-A Puppet report processor to send Puppet logs to native syslog. Include Puppet manifest to configure report processor.
+A Puppet report processor to send Puppet reports via native syslog. Includes Puppet manifest to configure syslog report processor.
 
 ## Table of Contents
 
@@ -16,13 +16,13 @@ A Puppet report processor to send Puppet logs to native syslog. Include Puppet m
 
 ## Description
 
-Syslog_reports includes a report processor which sends UDP syslog on port 514 to specified syslog servers.
+Syslog_reports includes a report processor which sends UDP syslog on port 514 to a specified syslog server.
 
 Syslog messages are broken into the following Puppet report fields.
 ```
 "[#{msg.time}]: #{hostname}: Level:#{msg.level} #{msg.source}: #{msg.message}"
 ```
-See [Puppet::Util::log][1] documentation for information of Puppet report fields. 
+See [Puppet::Util::log][1] documentation for information on Puppet report fields. 
 
 ## Setup
 
@@ -32,10 +32,10 @@ Puppet report processors need to be configured on the master, replica and all co
 
 ### Beginning with syslog_reports
 
-Syslog_reports has three reporting levels which is set via the 'report_status' parameter/option.
+Syslog_reports has three reporting levels which are set via the 'report_status' parameter/option.
 
-* failed: Only log Puppet reports which contain failures
-* changed: Only logs Puppet reports which contain failures AND changes.
+* failed: Only log Puppet reports which contain failures.
+* changed: Only log Puppet reports which contain failures AND changes.
 * unchanged: Log all Puppet reports. 
 
 If unset, syslog_reports will default to 'changed'.
@@ -44,7 +44,7 @@ If unset, syslog_reports will default to 'changed'.
 
 ### Puppet Enterprise
 
-To setup report processor in Puppet Enterprise using the provide manifest.
+To setup syslog_report processor in Puppet Enterprise using the provided manifest, perform the following steps.
 
 1. Include module within Puppetfile. Ensure code has deployed to all PE infrastructure servers.
 2. Under "PE Infrastructure Agent" node group. Add the `syslog_reports` class.
@@ -53,7 +53,7 @@ To setup report processor in Puppet Enterprise using the provide manifest.
    * report_status = desired value.
    * syslog_server = target syslog server.
 4. Ensure Puppet has completed a run on each PE infrastructure host.
-5. Puppet reports will now be sent to syslog server.
+5. Puppet reports will now be sent to the syslog server.
 
 ### Opensource Puppet
 
@@ -64,9 +64,9 @@ To setup report processor in Puppet Enterprise using the provide manifest.
    * Update puppet.conf to include syslog_reports. Under [master] section. Add syslog_reports to `reports` option. Use comma to separate entries. 
        * For example `reports = puppetdb,syslog_reports`
    * Restart Puppet server
-3. Puppet reports will now be sent to syslog server.
+3. Puppet reports will now be sent to the syslog server.
 
-Configuration file example
+syslog_reports.yaml configuration file example
 ```
 ---
 enabled: true
@@ -76,8 +76,8 @@ syslog_server: 'syslog.mycompany.example'
 
 ## Limitations
 
- - Presently only UDP syslog on port 514 is supported. If you want TCP let me know via a feature request issue on Github
- - All log line are truncated to maximum of 1024 characters. This restriction comes from [RFC 3164 section 4.1][4]:
+ - Presently only UDP syslog on port 514 is supported. If you require TCP let me know via a feature request issue on Github.
+ - All log line are truncated to maximum of 1024 characters. This restriction comes from [RFC 3164 section 4.1][4].
 
 ## Development
 
