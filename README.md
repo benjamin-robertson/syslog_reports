@@ -34,9 +34,9 @@ Puppet report processors need to be configured on the master, replica and all co
 
 Syslog_reports has three reporting levels which are set via the 'report_status' parameter/option.
 
-* failed: Only log Puppet reports which contain failures.
-* changed: Only log Puppet reports which contain failures AND changes.
-* unchanged: Log all Puppet reports. 
+* **failed**: Only log Puppet reports which contain failures.
+* **changed**: Only log Puppet reports which contain failures AND changes.
+* **unchanged**: Log all Puppet reports. 
 
 If unset, syslog_reports will default to 'changed'.
 
