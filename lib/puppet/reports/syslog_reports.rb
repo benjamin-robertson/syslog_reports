@@ -50,7 +50,7 @@ Puppet::Reports.register_report(:syslog_reports) do
 
     # # Quit if we are not enabled
     unless syslog_config['enabled']
-      return # need to establish how to quit and not report.
+      return
     end
 
     status = if !self.status.nil?
