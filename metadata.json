@@ -5,6 +5,8 @@
   "summary": "A Puppet report processor to send Puppet reports via native syslog.",
   "license": "Apache-2.0",
   "source": "https://github.com/benjamin-robertson/syslog_reports",
+  "project_page": "https://github.com/benjamin-robertson/syslog_reports",
+  "issues_url": "https://github.com/benjamin-robertson/syslog_reports/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
@@ -19,7 +21,6 @@
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "7",
         "8",
         "9"
       ]
