@@ -28,7 +28,16 @@ describe 'syslog_reports' do
 
       it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml') }
       it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml').with_content(contents) }
+      it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml').with_owner('pe-puppet') }
+      it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml').with_group('pe-puppet') }
+      it { is_expected.to contain_file('/etc/puppetlabs/puppet/syslog_reports.yaml').with_mode('0640') }
 
+      it { is_expected.to contain_package('remote_syslog_logger_gem').with_provider('puppetserver_gem') }
+
+      it { is_expected.to contain_ini_subsetting('Update puppet.conf to include syslog_reports').with_subsetting('syslog_reports') }
+      it { is_expected.to contain_ini_subsetting('Update puppet.conf to include syslog_reports').with_setting('reports') }
+      it { is_expected.to contain_ini_subsetting('Update puppet.conf to include syslog_reports').with_section('master') }
+      it { is_expected.to contain_ini_subsetting('Update puppet.conf to include syslog_reports').with_path('/etc/puppetlabs/puppet/puppet.conf') }
     end
   end
 end
