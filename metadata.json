@@ -2,9 +2,9 @@
   "name": "benjaminrobertson-syslog_reports",
   "version": "0.1.0",
   "author": "benjaminrobertson",
-  "summary": "",
+  "summary": "A Puppet report processor to send Puppet logs to native syslog.",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/benjamin-robertson/syslog_reports",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
